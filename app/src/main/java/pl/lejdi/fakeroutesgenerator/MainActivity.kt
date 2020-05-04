@@ -5,12 +5,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 
 class MainActivity : AppCompatActivity() {
     private var serviceStarted = false
@@ -50,11 +48,5 @@ class MainActivity : AppCompatActivity() {
     private fun abortService()
     {
         stopService(Intent(this, FakeLocationService::class.java))
-    }
-
-    private fun getRoute()
-    {
-        val gson = Gson()
-        val route = gson.fromJson(HardcodedRoutes.r3, Route::class.java)
     }
 }
