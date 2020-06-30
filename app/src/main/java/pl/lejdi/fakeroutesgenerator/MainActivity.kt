@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         setButtonClickListener()
     }
 
+    //starting or stopping service
     private fun setButtonClickListener()
     {
         button.setOnClickListener {
@@ -41,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 2000)
         }
-
         startForegroundService(Intent(applicationContext, FakeLocationService::class.java))
     }
 

@@ -1,5 +1,6 @@
 package pl.lejdi.fakeroutesgenerator
 
+//routes hardcoded in project files
 class HardcodedRoutes {
     companion object{
         val r1 = javaClass.getResourceAsStream("/route1")!!.bufferedReader().use { it.readText() }

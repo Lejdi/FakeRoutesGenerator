@@ -39,6 +39,7 @@ class FakeLocationService : Service() {
         stopGeneratingLocations()
     }
 
+    //initialize notification se the service can run when app is in background
     private fun createNotification(){
         val notifBuilder = NotificationCompat.Builder(this, "pl.lejdi.fakeroutesgenerator")
             .setOngoing(true)
@@ -55,10 +56,12 @@ class FakeLocationService : Service() {
 
         val notification = notifBuilder.build()
 
+        //start service in foreground
         startForeground(2, notification)
     }
 
     private fun startGeneratingLocations(){
+        //initialize test provider
         try{
             locationManager.addTestProvider(PROVIDER_NAME, false, false, false, false, false, true, true, 1, 1)
         } catch (e : Exception){
@@ -75,24 +78,24 @@ class FakeLocationService : Service() {
         locationManager.removeTestProvider(PROVIDER_NAME)
     }
 
+    //actual generating locations
     private fun chopChop()
     {
         lateinit var route : Route
+        //choose one from the hardcoded routes
         val rng = (0..100).random()
         val gson = Gson()
-        if(rng % 3 == 0) {
-            route = gson.fromJson(HardcodedRoutes.r1, Route::class.java)
-        }
-        if(rng % 3 == 1) {
-            route = gson.fromJson(HardcodedRoutes.r2, Route::class.java)
-        }
-        if(rng % 3 == 2) {
-            route = gson.fromJson(HardcodedRoutes.r3, Route::class.java)
+        route = when(rng % 3){
+            0 -> gson.fromJson(HardcodedRoutes.r1, Route::class.java)
+            1 -> gson.fromJson(HardcodedRoutes.r2, Route::class.java)
+            2 -> gson.fromJson(HardcodedRoutes.r3, Route::class.java)
+            else -> gson.fromJson(HardcodedRoutes.r1, Route::class.java)
         }
         if(rng == 0){
             Log.i("Oh..", "Gods of RNG hates you :(")
         }
 
+        //job that takes a location every 1sec and set it to test provider
         job = GlobalScope.launch {
             withContext(Dispatchers.Main){
                 route.verts.forEach {
